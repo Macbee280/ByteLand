@@ -57,11 +57,11 @@ class Character():
         # People looks like 'NOBODY' or 'JOAN, JOHN'. Items looks like 'NOTHING' or 'HAMMER, SHOVEL, SINK'
         
         turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, verbose=True, output_key='command')
-        sequential_chain = SequentialChain(chains=[turn_chain],input_variables=['bio' 'location', 'people', 'items', 'hand_item'],output_variables=['command'], verbose=True)
+        sequential_chain = SequentialChain(chains=[turn_chain],input_variables=['bio', 'location', 'people', 'items', 'hand_item'], output_variables=['command'], verbose=True)
         
         response = sequential_chain({'bio':self.bio, 'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
         command, variable = self.command_parsing(response['command'])
-        
+        print(f"\n\n|||RESPONSE: {response['command']}")
         return command, variable
 
     # Input: The command the AI gives
