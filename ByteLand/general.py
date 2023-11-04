@@ -48,7 +48,7 @@ class Character():
         )
         
         self.bio = f'{bio}\n{command}'
-        self.memory.save_context(inputs=bio, outputs="")
+        self.memory.chat_memory.add_user_message("bio")
         self.turn_template = turn_template
         self.talk_template = talk_template
     
