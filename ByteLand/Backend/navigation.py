@@ -100,20 +100,3 @@ class CollisionMap:
                     pathfinding_row.append(" ")
             pathfinding_maze.append(pathfinding_row)
         return pathfinding_maze
-
-# Example usage:
-# maze = [[' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
-#         [' ', ' ', '#', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#'],
-#         ['#', ' ', '#', ' ', ' ', '#', '#', ' ', ' ', ' ', '#', ' ', '#'],
-#         ['#', ' ', '#', ' ', ' ', '#', '#', ' ', '#', ' ', '#', ' ', '#'],
-#         ['#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', '#'],
-#         ['#', '#', '#', ' ', '#', ' ', '#', '#', '#', ' ', '#', ' ', '#'],
-#         ['#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' '],
-#         ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', ' ']]
-# collision_char = "#"  # Character representing collision blocks
-# game_map = CollisionMap(maze, collision_char)
-# start_coords = (0, 0)
-# end_coords = (6, 12)
-# path = game_map.find_path(start_coords, end_coords)
-# print_maze_with_path(maze,path)
-# print(path)

@@ -1,4 +1,4 @@
-from utils import *
+from utilities import *
 
 class GameMap:
     def __init__(self, width, height, tile_size):
@@ -48,13 +48,13 @@ class GameMap:
                         self.map_data[y][x] = '#'
                     else:
                         self.map_data[y][x] = ' '
-            self.map_data[tavern[0]][tavern[1]] = '#'
-            self.map_data[towncenter[0]][towncenter[1]] = '#'
-            self.map_data[blacksmith[0]][blacksmith[1]] = '#'
-            self.map_data[wizard_house[0]][wizard_house[1]] = '#'
-            self.map_data[jester_theatre[0]][jester_theatre[1]] = '#'
-            self.map_data[gabe_house[0]][gabe_house[1]] = '#'
-            self.map_data[miles_house[0]][miles_house[1]] = '#'
+            self.map_data[TAVERN[0]][TAVERN[1]] = '#'
+            self.map_data[TOWN_CENTER[0]][TOWN_CENTER[1]] = '#'
+            self.map_data[BLACKSMITH[0]][BLACKSMITH[1]] = '#'
+            self.map_data[WIZARD_HOUSE[0]][WIZARD_HOUSE[1]] = '#'
+            self.map_data[JESTER_THEATRE[0]][JESTER_THEATRE[1]] = '#'
+            self.map_data[GABE_HOUSE[0]][GABE_HOUSE[1]] = '#'
+            self.map_data[MARKET[0]][MARKET[1]] = '#'
 
     def print_map(self):
         self.set_boundaries()
