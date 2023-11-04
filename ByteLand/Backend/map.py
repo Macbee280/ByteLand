@@ -1,3 +1,5 @@
+from utils import *
+
 class GameMap:
     def __init__(self, width, height, tile_size):
         self.width = width
@@ -39,13 +41,23 @@ class GameMap:
     def get_events(self, x, y):
         return self.events.get((x, y), [])
 
+    def set_boundaries(self):
+            for y in range(self.height):
+                for x in range(self.width):
+                    if x == 0 or x == self.width - 1 or y == 0 or y == self.height - 1:
+                        self.map_data[y][x] = '#'
+                    else:
+                        self.map_data[y][x] = ' '
+            self.map_data[tavern[0]][tavern[1]] = '#'
+            self.map_data[towncenter[0]][towncenter[1]] = '#'
+            self.map_data[blacksmith[0]][blacksmith[1]] = '#'
+            self.map_data[wizard_house[0]][wizard_house[1]] = '#'
+            self.map_data[jester_theatre[0]][jester_theatre[1]] = '#'
+            self.map_data[gabe_house[0]][gabe_house[1]] = '#'
+            self.map_data[miles_house[0]][miles_house[1]] = '#'
+
     def print_map(self):
-        for y in range(self.height):
-            for x in range(self.width):
-                if x == 0 or x == self.width - 1 or y == 0 or y == self.height - 1:
-                    print("#", end=" ")
-                else:
-                    tile_value = self.map_data[y // self.tile_size][x // self.tile_size]
-                    print(tile_value, end=" ")
-            print()
+        self.set_boundaries()
+        for row in self.map_data:
+            print(" ".join(map(str, row)))
 
