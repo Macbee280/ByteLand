@@ -27,7 +27,7 @@ os.environ['OPENAI_API_KEY'] = apikey
 
 class Character():
     # TODO: Initialize location with a location class?
-    def __init__(self, name = "", bio = "", location = "", hand_item = "", coordinates = (0,0)):
+    def __init__(self, name = "", bio = "", location = "TOWNSQUARE", hand_item = "", coordinates = (0,0)):
         self.name = name
         self.location = location
         self.hand_item = hand_item
