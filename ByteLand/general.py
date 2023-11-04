@@ -27,19 +27,20 @@ os.environ['OPENAI_API_KEY'] = apikey
 
 class Character():
     # TODO: Initialize location with a location class?
-    def __init__(self, name = "", bio = "", location = "", hand_item = "NOTHING"):
+    def __init__(self, name = "", bio = "", location = "", hand_item = "", coordinates = (0,0)):
         self.name = name
         self.location = location
         self.hand_item = hand_item
+        self.coordinates = coordinates
         
         self.llm = OpenAI(temperature=0.9)
         self.memory = ConversationSummaryMemory(llm=self.llm)
         
-        command = 'You must follow these rules: Commands must be enclosed in [] and variables are enclosed in (). Type commands 1 at a time. Enclosed text must be all uppercase. End commands with a "|". Your commands are: [MOVE] (LOCATION) | [TALK] (NAME) | [PICKUP] (ITEM) | [USE] - this uses the item in your hand'
+        command = 'You must follow these rules: Commands must be enclosed in []. Input one total command. Enclosed text must be all uppercase. End commands with a "|". Your commands are: [MOVE] (LOCATION) and [TALK] (NAME) and [PICKUP] (ITEM) and [USE] - this uses the item in your hand'
         
         turn_template = PromptTemplate(
             input_variables=['bio', 'location', 'people', 'items', 'hand_item'],
-            template='{bio}\n\nYou are at {location}. PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item} '
+            template='{bio}\n\nThere are three locations: TOWNSQUARE, TAVERN, and MARKET.\nYou are at {location} | PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}\nEnter command:'
         )
         
         talk_template = PromptTemplate(
@@ -53,7 +54,7 @@ class Character():
     
     # Input: A string of a list of people, and a string of a list of items
     # Output: The command given and the variable for that command. Both are None if input was invalid
-    def turn(self, people = "NOBODY", items = "NOTHING"):
+    def turn(self, people = "", items = ""):
         # People looks like 'NOBODY' or 'JOAN, JOHN'. Items looks like 'NOTHING' or 'HAMMER, SHOVEL, SINK'
         
         turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, verbose=True, output_key='command')
@@ -62,6 +63,7 @@ class Character():
         response = sequential_chain({'bio':self.bio, 'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
         command, variable = self.command_parsing(response['command'])
         print(f"\n\n|||RESPONSE: {response['command']}")
+        
         return command, variable
 
     # Input: The command the AI gives
@@ -70,15 +72,18 @@ class Character():
         # Commands are: [MOVE] (LOCATION) | [TALK] (NAME) | [PICKUP] (ITEM) | [USE] (ITEM)
         if input.find("[MOVE]"):
             variable = input[input.find("]") + 1:input.find("|")].replace(" ", "")
-            return "[MOVE]", variable
+            command = input[input.find("["):input.find("]") + 1]
+            return command, variable
             
         elif input.find("[TALK]"):
             variable = input[input.find("]") + 1:input.find("|")].replace(" ", "")
-            return "[TALK]", variable
+            command = input[input.find("["):input.find("]") + 1]
+            return command, variable
             
         elif input.find("[PICKUP]"):
             variable = input[input.find("]") + 1:input.find("|")].replace(" ", "")
-            return "[PICKUP]", variable
+            command = input[input.find("["):input.find("]") + 1]
+            return command, variable
         
         elif input.find("[USE]"):
             if self.hand_item == "NOTHING":
