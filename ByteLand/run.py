@@ -10,6 +10,20 @@ from Backend.map import *
 from Backend.navigation import *
 from Backend.utilities import *
 
+def run_command(command, variable):
+    
+    if command == "[MOVE]":
+        pass
+    elif command == "[TALK]":
+        pass
+    elif command == "[PICKUP]":
+        pass
+    elif command == "[USE]":
+        pass
+    else:
+        pass
+        # Move to house
+
 def main():
     game_map = GameMap(MAP_WIDTH, MAP_HEIGHT, TILE_SIZE)
     collision_map = CollisionMap(game_map.map_data, COLLISION_CHAR)
