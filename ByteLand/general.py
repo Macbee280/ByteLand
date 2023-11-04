@@ -43,12 +43,13 @@ class Character(Object):
         )
         
         talk_template = PromptTemplate(
-            input_variable=['location', 'people', 'items'],
-            template='You are at {location}. PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}'
+            input_variable=['other_char', 'prev_dialogue'],
+            template='Enter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They have said {prev_dialoge}'
         )
         
         self.bio = f'{bio}\n{command}'
         self.turn_template = turn_template
+        self.talk_template = talk_template
     
     # Input: A string of a list of people, and a string of a list of items
     # Output: The command given and the variable for that command. Both are None if input was invalid
@@ -84,6 +85,23 @@ class Character(Object):
                 return None, None
             else:
                 return "[USE]", None
+        elif input.find("[STOPTALKING]"):
+            return "[STOPTALKING]", None
+        else:
+            return None, None
         
-    def talk(char1, char2):
-        pass
+    # Input: Other character's name and their previous dialogue
+    # Output: This character's respone, and a true/false if they ended conversation.
+    def talk(self, char, prev_dialogue = "nothing"):
+        
+        talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='char1')
+        sequential_chain = SequentialChain(chains=[talking_chain],input_variables=['other_char', 'prev_dialoge'],output_variables=['dialogue'], verbose=True)
+        
+        response = sequential_chain({'other_char':char, 'prev_dialogue':prev_dialogue})
+        
+        command, v = self.command_parsing(response['dialogue'])
+        if command == "[STOPTALKING]":
+            return response['dialogue'], True
+        
+        return response['dialogue'], False
+    
