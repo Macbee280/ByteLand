@@ -3,9 +3,9 @@
 Collection of functions to generate and run the AI civilization
 
 """
-import Coding_Utils.coding_utils as cu
-from Coding_Utils.coding_utils import err
-from Coding_Utils.object import Object
+#import Coding_Utils.coding_utils as cu
+#from Coding_Utils.coding_utils import err
+#from Coding_Utils.object import Object
 
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
@@ -25,7 +25,7 @@ os.environ['OPENAI_API_KEY'] = apikey
 
 # [USE] {SWORD}   [MOVE] {SMITHERY}
 
-class Character(Object):
+class Character():
     # TODO: Initialize location with a location class?
     def __init__(self, name = "", bio = "", location = "", hand_item = "NOTHING"):
         self.name = name
@@ -38,22 +38,23 @@ class Character(Object):
         command = 'You must follow these rules: Commands must be enclosed in [] and variables are enclosed in (). Type commands 1 at a time. Enclosed text must be all uppercase. End commands with a "|". Your commands are: [MOVE] (LOCATION) | [TALK] (NAME) | [PICKUP] (ITEM) | [USE] - this uses the item in your hand'
         
         turn_template = PromptTemplate(
-            input_variable=['location', 'people', 'items'],
+            input_variables=['location', 'people', 'items', 'hand_item'],
             template='You are at {location}. PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}'
         )
         
         talk_template = PromptTemplate(
-            input_variable=['other_char', 'prev_dialogue'],
+            input_variables=['other_char', 'prev_dialogue'],
             template='Enter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They have said {prev_dialoge}'
         )
         
         self.bio = f'{bio}\n{command}'
+        self.memory.save_context(inputs=bio, outputs="")
         self.turn_template = turn_template
         self.talk_template = talk_template
     
     # Input: A string of a list of people, and a string of a list of items
     # Output: The command given and the variable for that command. Both are None if input was invalid
-    def turn(self, people, items):
+    def turn(self, people = "NOBODY", items = "NOTHING"):
         # People looks like 'NOBODY' or 'JOAN, JOHN'. Items looks like 'NOTHING' or 'HAMMER, SHOVEL, SINK'
         
         turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, verbose=True, output_key='command')

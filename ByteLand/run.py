@@ -5,6 +5,7 @@ Run project for AI Civilization
 """
 
 from general import Character
+from general import *
 
 def main():
     gabe = Character("GABE", "You are a villager in a small town of 4. You are new to this town and don't know many people. You are the new smith of the town.", "TOWNSQUARE")
