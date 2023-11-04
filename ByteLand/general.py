@@ -11,7 +11,7 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains import SequentialChain
-from langchain.memory import ConversationKGMemory
+from langchain.memory import ConversationSummaryMemory
 
 
 import os
@@ -33,13 +33,13 @@ class Character():
         self.hand_item = hand_item
         
         self.llm = OpenAI(temperature=0.9)
-        self.memory = ConversationKGMemory(llm=self.llm)
+        self.memory = ConversationSummaryMemory(llm=self.llm)
         
         command = 'You must follow these rules: Commands must be enclosed in [] and variables are enclosed in (). Type commands 1 at a time. Enclosed text must be all uppercase. End commands with a "|". Your commands are: [MOVE] (LOCATION) | [TALK] (NAME) | [PICKUP] (ITEM) | [USE] - this uses the item in your hand'
         
         turn_template = PromptTemplate(
-            input_variables=['location', 'people', 'items', 'hand_item'],
-            template='You are at {location}. PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}'
+            input_variables=['bio', 'location', 'people', 'items', 'hand_item'],
+            template='{bio}\n\nYou are at {location}. PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item} '
         )
         
         talk_template = PromptTemplate(
@@ -48,7 +48,6 @@ class Character():
         )
         
         self.bio = f'{bio}\n{command}'
-        self.memory.chat_memory.add_user_message("bio")
         self.turn_template = turn_template
         self.talk_template = talk_template
     
@@ -58,9 +57,9 @@ class Character():
         # People looks like 'NOBODY' or 'JOAN, JOHN'. Items looks like 'NOTHING' or 'HAMMER, SHOVEL, SINK'
         
         turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, verbose=True, output_key='command')
-        sequential_chain = SequentialChain(chains=[turn_chain],input_variables=['location', 'people', 'items', 'hand_item'],output_variables=['command'], verbose=True)
+        sequential_chain = SequentialChain(chains=[turn_chain],input_variables=['bio' 'location', 'people', 'items', 'hand_item'],output_variables=['command'], verbose=True)
         
-        response = sequential_chain({'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
+        response = sequential_chain({'bio':self.bio, 'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
         command, variable = self.command_parsing(response['command'])
         
         return command, variable
