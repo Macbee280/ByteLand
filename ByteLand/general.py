@@ -27,39 +27,63 @@ os.environ['OPENAI_API_KEY'] = apikey
 
 class Character(Object):
     # TODO: Initialize location with a location class?
-    def __init__(self, full_name = "", bio = "", location = "", hand_item = "[NOTHING]"):
-        self.full_name = full_name
+    def __init__(self, name = "", bio = "", location = "", hand_item = "NOTHING"):
+        self.name = name
         self.location = location
         self.hand_item = hand_item
         
         self.llm = OpenAI(temperature=0.9)
         self.memory = ConversationKGMemory(llm=self.llm)
         
-        command = 'You must follow these rules: Commands must be enclosed in [] and variables are enclosed in (). Type commands 1 at a time. Enclosed text must be all uppercase. End commands with a "|".Your commands are: [MOVE] (LOCATION) | [TALK] (NAME) | [PICKUP] (ITEM) | [USE] (ITEM)'
+        command = 'You must follow these rules: Commands must be enclosed in [] and variables are enclosed in (). Type commands 1 at a time. Enclosed text must be all uppercase. End commands with a "|". Your commands are: [MOVE] (LOCATION) | [TALK] (NAME) | [PICKUP] (ITEM) | [USE] - this uses the item in your hand'
         
         turn_template = PromptTemplate(
             input_variable=['location', 'people', 'items'],
-            template='You are at {location}. PEOPLE: {people} | ITEMS: {items}'
+            template='You are at {location}. PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}'
+        )
+        
+        talk_template = PromptTemplate(
+            input_variable=['location', 'people', 'items'],
+            template='You are at {location}. PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}'
         )
         
         self.bio = f'{bio}\n{command}'
         self.turn_template = turn_template
     
-    def turn(self, location, people, items):
+    # Input: A string of a list of people, and a string of a list of items
+    # Output: The command given and the variable for that command. Both are None if input was invalid
+    def turn(self, people, items):
         # People looks like 'NOBODY' or 'JOAN, JOHN'. Items looks like 'NOTHING' or 'HAMMER, SHOVEL, SINK'
         
         turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, verbose=True, output_key='command')
-        sequential_chain = SequentialChain(chains=[turn_chain],input_variables=['location', 'people', 'items'],output_variables=['command'], verbose=True)
+        sequential_chain = SequentialChain(chains=[turn_chain],input_variables=['location', 'people', 'items', 'hand_item'],output_variables=['command'], verbose=True)
         
-        response = sequential_chain({'location':location, 'people':people, 'items':items})
-        print(response['command'])
+        response = sequential_chain({'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
+        command, variable = self.command_parsing(response['command'])
         
+        return command, variable
+
+    # Input: The command the AI gives
+    # Output: Divides the command into the command itself and the variable for that command
+    def command_parsing(self, input):
+        # Commands are: [MOVE] (LOCATION) | [TALK] (NAME) | [PICKUP] (ITEM) | [USE] (ITEM)
+        if input.find("[MOVE]"):
+            variable = input[input.find("]") + 1:input.find("|")].replace(" ", "")
+            return "[MOVE]", variable
+            
+        elif input.find("[TALK]"):
+            variable = input[input.find("]") + 1:input.find("|")].replace(" ", "")
+            return "[TALK]", variable
+            
+        elif input.find("[PICKUP]"):
+            variable = input[input.find("]") + 1:input.find("|")].replace(" ", "")
+            return "[PICKUP]", variable
         
-    def talk():
-        pass
-    
-    def addItem():
-        pass
-    
-    def removeItem():
+        elif input.find("[USE]"):
+            if self.hand_item == "NOTHING":
+                return None, None
+            else:
+                return "[USE]", None
+        
+    def talk(char1, char2):
         pass
