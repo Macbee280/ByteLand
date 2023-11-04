@@ -10,5 +10,14 @@ from Coding_Utils.object import Object
 # [USE] {SWORD}   [MOVE] {SMITHERY}
 
 class Character(Object):
-    def __init__():
+    def __init__(self, inital_prompt):
+        pass
+    
+    def turn():
+        pass
+    
+    def addItem():
+        pass
+    
+    def removeItem():
         pass
