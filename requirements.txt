@@ -2,3 +2,4 @@ langchain==0.0.330
 torch==2.1.0
 matplotlib==3.8.1
 openai==0.28.1
+django==4.2.7
