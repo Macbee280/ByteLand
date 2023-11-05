@@ -13,6 +13,8 @@ from langchain.chains import LLMChain
 from langchain.chains import SequentialChain
 from langchain.memory import ConversationSummaryMemory
 
+from Backend.navigation import *
+
 
 import os
 from apikey import apikey
