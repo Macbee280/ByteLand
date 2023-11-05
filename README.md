@@ -33,10 +33,10 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">The ByteLands</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    An AI-powered medieval village simulation
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][Picture1]](https://github.com/Macbee280/ByteLand/blob/master/images/Picture1.jpg?raw=true)
+![Picture1](https://github.com/Macbee280/ByteLand/blob/master/images/Picture1.jpg?raw=true)
 
 Inspired by the joonspk-research/generative_agents project, create an AI village with multiple agents! By utilizing OpenAI, we were able to create characters that could hold conversations with each other and travel about the town.
 
