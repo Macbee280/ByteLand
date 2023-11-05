@@ -19,8 +19,9 @@ def main():
 
     gabe = Character("GABE", "You are a villager in a small town of 4. You are new to this town and don't know many people. You are the new smith of the town.", "TOWNSQUARE",coordinates=TOWN_CENTER)
     CHARACTERS[gabe.name] = gabe
-    #izzy = Character("IZZY", "You are a villager in a small town of 4. You are the bartender of this town and heard there's a newcomer to the town. You want to meet him, his name is GABE.", "TOWNSQUARE")
-    command, variable = gabe.turn()
+    izzy = Character("IZZY", "You are a villager in a small town of 4. You are the bartender of this town and heard there's a newcomer to the town. You want to meet him, his name is GABE.", "TOWNSQUARE")
+    CHARACTERS[izzy.name] = izzy
+    command, variable = gabe.turn(people="IZZY")
 
     if command == '[MOVE]':
         run_command(gabe, command, tuple(variable), collision_map=collision_map, LOCATIONS=LOCATIONS)

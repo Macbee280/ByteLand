@@ -47,7 +47,7 @@ class Character():
         
         talk_template = PromptTemplate(
             input_variables=['other_char', 'prev_dialogue'],
-            template='Enter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They said "{prev_dialoge}"'
+            template='Enter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They said "{prev_dialogue}"\nYour response:'
         )
         
         self.bio = f'{bio}\n{command}'
@@ -60,9 +60,8 @@ class Character():
         # People looks like 'NOBODY' or 'JOAN, JOHN'. Items looks like 'NOTHING' or 'HAMMER, SHOVEL, SINK'
         
         turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, verbose=True, output_key='command')
-        sequential_chain = SequentialChain(chains=[turn_chain],input_variables=['bio', 'location', 'people', 'items', 'hand_item'], output_variables=['command'], verbose=True)
         
-        response = sequential_chain({'bio':self.bio, 'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
+        response = turn_chain({'bio':self.bio, 'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
         command, variable = self.command_parsing(response['command'])
         print(f"\n\n|||RESPONSE: {response['command']}")
         
@@ -99,15 +98,13 @@ class Character():
         
     # Input: Other character's name and their previous dialogue
     # Output: This character's respone, and a true/false if they ended conversation.
-    def talk(self, char, prev_dialogue = "nothing"):
+    def talk(self, char, prev_dialogue = ""):
         
-        talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='other_char')
-        sequential_chain = SequentialChain(chains=[talking_chain],input_variables=['other_char', 'prev_dialoge'],output_variables=['dialogue'], verbose=True)
-        
-        response = sequential_chain({'other_char':char, 'prev_dialogue':prev_dialogue})
+        talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='dialogue')
+        response = talking_chain({'other_char':char, 'prev_dialogue':prev_dialogue})
         
         command, v = self.command_parsing(response['dialogue'])
-        if command == "[STOPTALKING]":
+        if command.find("STOPTALKING") != -1:
             return response['dialogue'], True
         
         return response['dialogue'], False
@@ -129,11 +126,13 @@ def run_command(character, command, variable, collision_map = None, LOCATIONS = 
         
         for i in range(2):
             dialogue, end = character.talk(variable, prev_dialogue)
-            if end:
+            print(f"||dialogue 1: {dialogue}")
+            if end == True:
                 return
             
             prev_dialogue, end = other_char.talk(character.name, dialogue)
-            if end:
+            print(f"||Dialogue 2: {prev_dialogue}")
+            if end == True:
                 return
             
     elif command == "[PICKUP]":
