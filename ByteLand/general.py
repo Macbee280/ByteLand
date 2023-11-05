@@ -15,14 +15,26 @@ from langchain.chains import SequentialChain
 from langchain.memory import ConversationSummaryMemory
 
 from Backend.navigation import *
-
-
+from gtts import gTTS
+import tempfile
 import os
 from apikey import apikey
+from IPython.display import Audio
+import time
+from mutagen.mp3 import MP3
 
 os.environ['OPENAI_API_KEY'] = apikey
 
 # [USE] {SWORD}   [MOVE] {SMITHERY}
+
+def play_audio_and_wait(file_path):
+    audio = Audio(file_path, autoplay=True)
+    st.write(audio)
+    audio
+
+def get_audio_duration(file_path):
+    audio = MP3(file_path)
+    return audio.info.length
 
 class Character():
     def __init__(self, name = "", bio = "", location = "TOWNSQUARE", hand_item = "", coordinates = (0,0)):
@@ -108,6 +120,7 @@ class Character():
 def run_command(character, command, variable, collision_map, opt, CHARACTERS={}):
     if command == "[MOVE]":
         if variable in opt['coordinates']:
+            st.write(f"[{character.name} moved from {character.location} to {variable} ]")
             character.location = variable
             path = collision_map.find_path(character.coordinates, opt['coordinates'][variable])
             # Directly iterate over the path
@@ -128,13 +141,33 @@ def run_command(character, command, variable, collision_map, opt, CHARACTERS={})
         for i in range(2):
             dialogue, end = character.talk(variable, prev_dialogue)
             st.write(f"{character.name}: {dialogue}")  #TODO: Interface with frontend here
-            if end == True:
-                return
+            tts = gTTS(f"{character.name}: {dialogue}")
+
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
+                tts.save(tmp_file.name)
+
+            play_audio_and_wait(tmp_file.name)
+            duration = get_audio_duration(tmp_file.name)
+            time.sleep(duration-1)
+            os.unlink(tmp_file.name)
+
+            if end:
+                break
             
             prev_dialogue, end = other_char.talk(character.name, dialogue)
             st.write(f"{other_char.name}: {prev_dialogue}") #TODO: Interface with frontend here
-            if end == True:
-                return
+            tts = gTTS(f"{other_char.name}: {prev_dialogue}")
+
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
+                tts.save(tmp_file.name)
+
+            play_audio_and_wait(tmp_file.name)
+            duration = get_audio_duration(tmp_file.name)
+            time.sleep(duration-1)
+            os.unlink(tmp_file.name)
+                    
+            if end:
+                break
             
     elif command == "[PICKUP]":
         # Implement logic for the [PICKUP] command
