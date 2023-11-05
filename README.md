@@ -157,7 +157,7 @@ _Below is an example of how you can instruct your audience on installing and set
 
 Pictures:
 <p align="center" width="100%">
-    <img width="50%" src="https://github.com/Macbee280/ByteLand/blob/master/images/inner_thoughts.jpg?raw=true">
+    <img width="100%" src="https://github.com/Macbee280/ByteLand/blob/master/images/inner_thoughts.jpg?raw=true">
 </p>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
