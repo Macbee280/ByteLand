@@ -155,9 +155,10 @@ _Below is an example of how you can instruct your audience on installing and set
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+Pictures:
+<p align="center" width="100%">
+    <img width="50%" src="https://github.com/Macbee280/ByteLand/blob/master/images/inner_thoughts.jpg?raw=true">
+</p>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -166,13 +167,12 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+- [x] Add Separate AI Agents
+- [x] Create pathfinding system
+- [ ] Rework AI framework to have better memory systems
+- [ ] Implement pathfinding and grid-based visual for users
+- [ ] Demo mode and Long Term Mode
+    - [ ] Specify number of days?
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
