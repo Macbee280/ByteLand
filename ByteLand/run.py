@@ -10,6 +10,8 @@ from Backend.map import *
 from Backend.navigation import *
 from Backend.utilities import *
 
+CHARACTERS = {}
+
 def main():
     opt = {}
     opt = configure_opt(opt)
@@ -24,6 +26,8 @@ def main():
 
     if command == '[MOVE]':
         run_command(gabe, command, variable, collision_map, opt)
+    else:
+        run_command(gabe, command, variable, CHARACTERS=CHARACTERS)
     
     #print(izzy.turn())
 
