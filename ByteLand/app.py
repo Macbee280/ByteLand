@@ -1,4 +1,5 @@
 import streamlit as st
+from PIL import Image, ImageDraw
 from general import Character
 from general import *
 from Backend.map import *
@@ -30,7 +31,19 @@ def main():
     game_map = GameMap(opt['map_width'], opt['map_height'], opt['tile_size'])
     collision_map = CollisionMap(game_map.map_data, opt['collision_char'])
 
-    st.title("AI Civilization")
+    image_path = './Backend/map.jpeg'
+    
+
+    # Check if the image file exists
+    if os.path.exists(image_path):
+        # Open and display the background image
+        with open(image_path, "rb") as image_file:
+            st.title("AI Civilization")
+            background_image = image_file.read()
+            st.image(background_image, caption='Coordinate Grid', use_column_width=True, clamp=True, output_format='JPEG')
+
+    else:
+        st.error("Background image not found. Please make sure the file 'map.jpeg' exists in the specified path.")
 
     gabe = Character("GABE", "You are a villager named GABE in a small medieval town of 4. You are new to this town and don't know many people. You are the new smith of the town.", "TOWNSQUARE", coordinates=opt['coordinates']['TOWNSQUARE'])
     CHARACTERS[gabe.name] = gabe
