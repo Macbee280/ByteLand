@@ -1,4 +1,4 @@
-from utilities import *
+from Backend.utilities import *
 
 class GameMap:
     def __init__(self, width, height, tile_size):

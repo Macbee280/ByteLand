@@ -13,6 +13,8 @@ from langchain.chains import LLMChain
 from langchain.chains import SequentialChain
 from langchain.memory import ConversationSummaryMemory
 
+from Backend.navigation import *
+
 
 import os
 from apikey import apikey
@@ -110,3 +112,25 @@ class Character():
         
         return response['dialogue'], False
     
+def run_command(character, command, variable, collision_map, LOCATIONS):
+    if command == "[MOVE]":
+        if variable in LOCATIONS:
+            character.location = variable
+            path = collision_map.find_path(character.coordinates, LOCATIONS[variable])
+            # Directly iterate over the path
+            for location in path:
+                character.coordinates = LOCATIONS[location]
+        else:
+           pass
+    elif command == "[TALK]":
+        # Implement logic for the [TALK] command
+        pass
+    elif command == "[PICKUP]":
+        # Implement logic for the [PICKUP] command
+        pass
+    elif command == "[USE]":
+        # Implement logic for the [USE] command
+        pass
+    else:
+        # Go Home
+        print("hello world")
