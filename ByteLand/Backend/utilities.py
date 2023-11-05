@@ -20,10 +20,10 @@ def configure_opt(opt):
     }
 
     CHARACTERS = {
-        'Ancient Aiden',
-        'Galliant Gabe',
-        'Magical Miles',
-        'Ye Olde Izzy'
+        'Aiden',
+        'Gabe',
+        'Miles',
+        'Izzy'
     }
 
     # Create the opt variable
