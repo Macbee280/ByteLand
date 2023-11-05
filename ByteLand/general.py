@@ -40,7 +40,7 @@ class Character():
         
         turn_template = PromptTemplate(
             input_variables=['bio', 'location', 'people', 'items', 'hand_item'],
-            template='{bio}\n\nThere are three locations: TOWNSQUARE, TAVERN, and MARKET.\nYou are at {location} | PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}\nEnter command:'
+            template='{bio}\n\nThere are three locations: TOWNSQUARE, TAVERN, and MARKET.\nYou are at {location} | PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}\nEnter a single command:'
         )
         
         talk_template = PromptTemplate(
@@ -100,7 +100,7 @@ class Character():
     def talk(self, char, prev_dialogue = "nothing"):
         
         talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='char1')
-        sequential_chain = SequentialChain(chains=[talking_chain],input_variables=['other_char', 'prev_dialoge'],output_variables=['dialogue'], verbose=True)
+        sequential_chain = SequentialChain(chains=[talking_chain],input_variables=['other_char', 'prev_dialoge'], output_variables=['dialogue'], verbose=True)
         
         response = sequential_chain({'other_char':char, 'prev_dialogue':prev_dialogue})
         
