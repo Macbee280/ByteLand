@@ -104,7 +104,7 @@ class Character():
         
         return response['dialogue'], False
     
-def run_command(character, command, variable, collision_map, opt):
+def run_command(character, command, variable, collision_map, opt, CHARACTERS={}):
     if command == "[MOVE]":
         if variable in opt['coordinates']:
             character.location = variable
