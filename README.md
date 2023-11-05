@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<p align="right" width="100%">
+<p align="center" width="100%">
     <img width="50%" src="https://github.com/Macbee280/ByteLand/blob/master/images/Picture1.jpg?raw=true">
 </p>
 
