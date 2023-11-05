@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](images/Picture1.jpg)
+[![Product Name Screen Shot][images/Picture1.jpg]](images/Picture1.jpg)
 
 Inspired by the joonspk-research/generative_agents project, create an AI village with multiple agents! By utilizing OpenAI, we were able to create characters that could hold conversations with each other and travel about the town.
 
