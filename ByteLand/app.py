@@ -1,5 +1,4 @@
 import streamlit as st
-from PIL import Image, ImageDraw
 from general import Character
 from general import *
 from Backend.map import *
