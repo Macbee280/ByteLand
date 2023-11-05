@@ -45,7 +45,7 @@ class Character():
         
         talk_template = PromptTemplate(
             input_variables=['other_char', 'prev_dialogue'],
-            template='Enter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They have said {prev_dialoge}'
+            template='Enter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They said "{prev_dialoge}"'
         )
         
         self.bio = f'{bio}\n{command}'
@@ -99,8 +99,8 @@ class Character():
     # Output: This character's respone, and a true/false if they ended conversation.
     def talk(self, char, prev_dialogue = "nothing"):
         
-        talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='char1')
-        sequential_chain = SequentialChain(chains=[talking_chain],input_variables=['other_char', 'prev_dialoge'], output_variables=['dialogue'], verbose=True)
+        talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='other_char')
+        sequential_chain = SequentialChain(chains=[talking_chain],input_variables=['other_char', 'prev_dialoge'],output_variables=['dialogue'], verbose=True)
         
         response = sequential_chain({'other_char':char, 'prev_dialogue':prev_dialogue})
         
@@ -110,3 +110,36 @@ class Character():
         
         return response['dialogue'], False
     
+def run_command(character, command, variable, collision_map = None, LOCATIONS = None, CHARACTERS = None):
+    if command == "[MOVE]":
+        if variable in LOCATIONS:
+            character.location = variable
+            path = collision_map.find_path(character.coordinates, LOCATIONS[variable])
+            # Directly iterate over the path
+            for location in path:
+                character.coordinates = LOCATIONS[location]
+        else:
+            pass
+    elif command == "[TALK]":
+        # Implement logic for the [TALK] command
+        prev_dialogue = ""
+        other_char = CHARACTERS[variable]
+        
+        for i in range(2):
+            dialogue, end = character.talk(variable, prev_dialogue)
+            if end:
+                return
+            
+            prev_dialogue, end = other_char.talk(character.name, dialogue)
+            if end:
+                return
+            
+    elif command == "[PICKUP]":
+        # Implement logic for the [PICKUP] command
+        pass
+    elif command == "[USE]":
+        # Implement logic for the [USE] command
+        pass
+    else:
+        # Go Home
+        print("hello world")
