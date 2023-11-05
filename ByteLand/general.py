@@ -6,6 +6,7 @@ Collection of functions to generate and run the AI civilization
 #import Coding_Utils.coding_utils as cu
 #from Coding_Utils.coding_utils import err
 #from Coding_Utils.object import Object
+import streamlit as st
 
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
@@ -126,12 +127,12 @@ def run_command(character, command, variable, collision_map, opt, CHARACTERS={})
             
         for i in range(2):
             dialogue, end = character.talk(variable, prev_dialogue)
-            print(f"||dialogue 1: {dialogue}")  #TODO: Interface with frontend here
+            st.write(f"{character.name}: {dialogue}")  #TODO: Interface with frontend here
             if end == True:
                 return
             
             prev_dialogue, end = other_char.talk(character.name, dialogue)
-            print(f"||Dialogue 2: {prev_dialogue}") #TODO: Interface with frontend here
+            st.write(f"{other_char.name}: {prev_dialogue}") #TODO: Interface with frontend here
             if end == True:
                 return
             
