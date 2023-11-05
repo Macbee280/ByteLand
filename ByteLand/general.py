@@ -19,8 +19,7 @@ from Backend.navigation import *
 import os
 from apikey import apikey
 
-LOCATIONS = {"Town Square", "Tavern", "Market"}
-CHARACTERS = {"Ancient Aiden", "Galliant Gabe", "Magical Miles", "Ye Olde Izzy"}
+CHARACTERS = {}
 OBJECTS = {}
 
 os.environ['OPENAI_API_KEY'] = apikey
@@ -109,14 +108,14 @@ class Character():
         
         return response['dialogue'], False
     
-def run_command(character, command, variable, collision_map = None, LOCATIONS = None, CHARACTERS = None):
+def run_command(character, command, variable, collision_map, opt):
     if command == "[MOVE]":
-        if variable in LOCATIONS:
+        if variable in opt['coordinates']:
             character.location = variable
-            path = collision_map.find_path(character.coordinates, LOCATIONS[variable])
+            path = collision_map.find_path(character.coordinates, opt['coordinates'][variable])
             # Directly iterate over the path
             for location in path:
-                character.coordinates = LOCATIONS[location]
+                character.coordinates = location
         else:
             pass
     elif command == "[TALK]":
