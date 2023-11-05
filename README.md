@@ -82,7 +82,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][Picture1]](https://github.com/Macbee280/ByteLand/tree/master/images)
+[![Product Name Screen Shot][Picture1]](https://github.com/Macbee280/ByteLand/tree/master/images/Picture1.jpg?raw=true)
 
 Inspired by the joonspk-research/generative_agents project, create an AI village with multiple agents! By utilizing OpenAI, we were able to create characters that could hold conversations with each other and travel about the town.
 
