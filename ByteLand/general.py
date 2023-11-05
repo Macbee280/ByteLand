@@ -36,18 +36,18 @@ class Character():
         self.coordinates = coordinates
         
         self.llm = OpenAI(temperature=0.9)
-        self.memory = ConversationSummaryMemory(llm=self.llm)
+        self.memory = ConversationSummaryMemory(llm=self.llm, memory_key='history', input_key='input', human_prefix='instructions', ai_prefix=f"Human {self.name}")
         
         command = 'You must follow these rules: Commands must be enclosed in []. Input one total command. Enclosed text must be all uppercase. End commands with a "|". Your commands are: [MOVE] (LOCATION) and [TALK] (NAME) and [PICKUP] (ITEM) and [USE] - this uses the item in your hand'
         
         turn_template = PromptTemplate(
-            input_variables=['bio', 'location', 'people', 'items', 'hand_item'],
-            template='{bio}\n\nThere are three locations: TOWNSQUARE, TAVERN, and MARKET.\nYou are at {location} | PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}\nEnter a single command:'
+            input_variables=['input', 'history', 'bio', 'location', 'people', 'items', 'hand_item'],
+            template='{bio}\nHistory: {history}\nYou can only go to three locations: TOWNSQUARE, TAVERN, and MARKET.\nYou are at {location} | PEOPLE: {people} | ITEMS: {items} | IN HAND ITEM: {hand_item}\nEnter a single command:'
         )
         
         talk_template = PromptTemplate(
-            input_variables=['other_char', 'prev_dialogue'],
-            template='Enter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They said "{prev_dialogue}"\nYour response:'
+            input_variables=['input', 'history', 'other_char', 'prev_dialogue'],
+            template='History: {history}\nEnter command [STOPTALKING] to end dialogue. You are talking to {other_char}. They said "{prev_dialogue}"\nYour response:'
         )
         
         self.bio = f'{bio}\n{command}'
@@ -59,9 +59,9 @@ class Character():
     def turn(self, people = "", items = ""):
         # People looks like 'NOBODY' or 'JOAN, JOHN'. Items looks like 'NOTHING' or 'HAMMER, SHOVEL, SINK'
         
-        turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, verbose=True, output_key='command')
+        turn_chain = LLMChain(llm=self.llm, prompt=self.turn_template, memory=self.memory, verbose=True, output_key='command')
         
-        response = turn_chain({'bio':self.bio, 'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
+        response = turn_chain({'bio':self.bio, 'input':"", 'location':self.location, 'people':people, 'items':items, 'hand_item':self.hand_item})
         command, variable = self.command_parsing(response['command'])
         print(f"\n\n|||RESPONSE: {response['command']}")
         
@@ -100,8 +100,8 @@ class Character():
     # Output: This character's respone, and a true/false if they ended conversation.
     def talk(self, char, prev_dialogue = ""):
         
-        talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='dialogue')
-        response = talking_chain({'other_char':char, 'prev_dialogue':prev_dialogue})
+        talking_chain = LLMChain(llm=self.llm, prompt=self.talk_template, verbose=True, output_key='dialogue', memory=self.memory)
+        response = talking_chain({'input':"", 'other_char':char, 'prev_dialogue':prev_dialogue})
         
         command, v = self.command_parsing(response['dialogue'])
         if command.find("STOPTALKING") != -1:
