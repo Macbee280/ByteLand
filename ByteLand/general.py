@@ -19,7 +19,7 @@ from Backend.navigation import *
 import os
 from apikey import apikey
 
-CHARACTERS = {"Ancient Aiden", "Galliant Gabe", "Magical Miles", "Ye Olde Izzy"}
+CHARACTERS = {}
 OBJECTS = {}
 
 os.environ['OPENAI_API_KEY'] = apikey
