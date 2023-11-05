@@ -41,23 +41,23 @@ class GameMap:
     def get_events(self, x, y):
         return self.events.get((x, y), [])
 
-    def set_boundaries(self):
+    def set_boundaries(self, opt):
             for y in range(self.height):
                 for x in range(self.width):
                     if x == 0 or x == self.width - 1 or y == 0 or y == self.height - 1:
                         self.map_data[y][x] = '#'
                     else:
                         self.map_data[y][x] = ' '
-            self.map_data[TAVERN[0]][TAVERN[1]] = '#'
-            self.map_data[TOWN_CENTER[0]][TOWN_CENTER[1]] = '#'
-            self.map_data[BLACKSMITH[0]][BLACKSMITH[1]] = '#'
-            self.map_data[WIZARD_HOUSE[0]][WIZARD_HOUSE[1]] = '#'
-            self.map_data[JESTER_THEATRE[0]][JESTER_THEATRE[1]] = '#'
-            self.map_data[GABE_HOUSE[0]][GABE_HOUSE[1]] = '#'
-            self.map_data[MARKET[0]][MARKET[1]] = '#'
+            self.map_data[opt['coordinates']['TAVERN'][0]][opt['coordinates']['TAVERN'][1]] = '#'
+            self.map_data[opt['coordinates']['TOWNSQUARE'][0]][opt['coordinates']['TOWNSQUARE'][1]] = '#'
+            self.map_data[opt['coordinates']['SMITHY'][0]][opt['coordinates']['SMITHY'][1]] = '#'
+            self.map_data[opt['coordinates']['WIZARD_HOUSE'][0]][opt['coordinates']['WIZARD_HOUSE'][1]] = '#'
+            self.map_data[opt['coordinates']['JESTER_THEATRE'][0]][opt['coordinates']['JESTER_THEATRE'][1]] = '#'
+            self.map_data[opt['coordinates']['GABE_HOUSE'][0]][opt['coordinates']['GABE_HOUSE'][1]] = '#'
+            self.map_data[opt['coordinates']['MARKET'][0]][opt['coordinates']['MARKET'][1]] = '#'
 
-    def print_map(self):
-        self.set_boundaries()
+    def print_map(self, opt):
+        self.set_boundaries(opt)
         for row in self.map_data:
             print(" ".join(map(str, row)))
 

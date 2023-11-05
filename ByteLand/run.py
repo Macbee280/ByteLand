@@ -10,7 +10,6 @@ from Backend.map import *
 from Backend.navigation import *
 from Backend.utilities import *
 
-LOCATIONS = {'TAVERN': (2, 2), 'TOWNSQUARE': (4, 2), 'SMITHERY': (3, 6), 'MARKET': (5, 4)}
 CHARACTERS = {}
 
 def find_people(prime_character):
@@ -27,8 +26,10 @@ def find_people(prime_character):
     return output
 
 def main():
-    game_map = GameMap(MAP_WIDTH, MAP_HEIGHT, TILE_SIZE)
-    collision_map = CollisionMap(game_map.map_data, COLLISION_CHAR)
+    opt = {}
+    opt = configure_opt(opt)
+    game_map = GameMap(opt['map_width'], opt['map_height'], opt['tile_size'])
+    collision_map = CollisionMap(game_map.map_data, opt['collision_char'])
 
     gabe = Character("GABE", "You are a villager named GABE in a small medieval town of 4. You are new to this town and don't know many people. You are the new smith of the town.", "TOWNSQUARE", coordinates=TOWN_CENTER)
     CHARACTERS[gabe.name] = gabe
@@ -37,7 +38,7 @@ def main():
     command, variable = gabe.turn(people=find_people(gabe))
 
     if command == '[MOVE]':
-        run_command(gabe, command, tuple(variable), collision_map=collision_map, LOCATIONS=LOCATIONS)
+        run_command(gabe, command, variable, collision_map, opt)
     else:
         run_command(gabe, command, variable, CHARACTERS=CHARACTERS)
     
