@@ -134,7 +134,7 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 4. Create an `apikey2.py ` file and enter the API key.
-   ```js
+   ```py
    apikey = 'ENTER YOUR API';
    ```
 
