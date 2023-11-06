@@ -129,13 +129,14 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    git clone https://github.com/Macbee280/ByteLand.git
    ```
-3. Create an apikey2.py file and paste the following
-   ```sh
-   npm install
-   ```
-4. Create an `apikey2.py ` file and enter the API key.
+3. Create an `apikey2.py ` file and enter the API key.
    ```py
    apikey = 'ENTER YOUR API';
+   ```stall
+   ```
+4. Install the requirements.txt.
+   ```py
+   pip install -r requirements.txt;
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
