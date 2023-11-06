@@ -84,6 +84,7 @@
 </p>
 
 Inspired by the joonspk-research/generative_agents project, create an AI village with multiple agents! By utilizing OpenAI, we were able to create characters that could hold conversations with each other and travel about the town.
+It was created in the 2023 Gonzaga Hackathon, placed 2nd overall, and was made by 4 GU sophomores.
 
 Features:
 
@@ -110,8 +111,7 @@ This section below contains the major frameworks/libraries used to bootstrap our
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running, you can follow these steps.
 
 ### Prerequisites
 
@@ -146,6 +146,7 @@ This is an example of how to list things you need to use the software and how to
 
 Pictures:
 
+A snapshot of the way the AI thinks and stores memory
 <p align="center" width="100%">
     <img width="100%" src="https://github.com/Macbee280/ByteLand/blob/master/images/inner_thoughts.jpg?raw=true">
 </p>
@@ -196,7 +197,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - gdimartino@gabedimartino.com
+Email - gdimartino@gabedimartino.com
 
 Project Link: [https://github.com/macbee280/byteland](https://github.com/macbee280/byteland)
 
@@ -206,7 +207,7 @@ Project Link: [https://github.com/macbee280/byteland](https://github.com/macbee2
 
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+Contributors on this project:
 
 * Gabe DiMartino
 * Aiden Tabrah
