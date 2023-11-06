@@ -132,7 +132,6 @@ This is an example of how to list things you need to use the software and how to
 3. Create an `apikey2.py ` file and enter the API key.
    ```py
    apikey = 'ENTER YOUR API';
-   ```stall
    ```
 4. Install the requirements.txt.
    ```py
