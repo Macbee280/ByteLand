@@ -1,4 +1,8 @@
-# utilities.py
+""" utilities.py
+
+Configure the option which passes critical information
+
+"""
 def configure_opt(opt):
     # Map dimensions
     MAP_WIDTH = 13

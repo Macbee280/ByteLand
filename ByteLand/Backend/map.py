@@ -1,6 +1,17 @@
+""" map.py
+
+File containing the GameMap functionality
+
+"""
+
 from Backend.utilities import *
 
 class GameMap:
+    """ GameMap()
+
+    Class which the design of the GameMap
+
+    """
     def __init__(self, width, height, tile_size):
         self.width = width
         self.height = height

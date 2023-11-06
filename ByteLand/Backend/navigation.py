@@ -1,3 +1,9 @@
+""" navigation.py
+
+File containing the Entity Pathfinding functionality
+
+"""
+
 def print_maze(maze):
     for row in maze:
         for item in row:
@@ -80,6 +86,11 @@ def print_maze_with_path(maze, path):
         print()
 
 class CollisionMap:
+    """ CollisionMap()
+
+    Class which controls the pathfinding of entities on the map
+
+    """
     def __init__(self, maze, collision_block_char):
         self.maze = maze
         self.collision_block_char = collision_block_char

@@ -1,3 +1,9 @@
+""" app.py
+
+Create the web application for AI Civilization
+
+"""
+
 import streamlit as st
 from general import Character
 from general import *

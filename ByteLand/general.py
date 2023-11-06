@@ -3,9 +3,6 @@
 Collection of functions to generate and run the AI civilization
 
 """
-#import Coding_Utils.coding_utils as cu
-#from Coding_Utils.coding_utils import err
-#from Coding_Utils.object import Object
 import streamlit as st
 
 from langchain.llms import OpenAI
@@ -37,6 +34,11 @@ def get_audio_duration(file_path):
     return audio.info.length
 
 class Character():
+    """ Character()
+
+    Class which controls the functionality of the AI agents
+
+    """
     def __init__(self, name = "", bio = "", location = "TOWNSQUARE", hand_item = "", coordinates = (0,0)):
         self.name = name
         self.location = location
