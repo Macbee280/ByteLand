@@ -227,7 +227,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [stars-url]: https://github.com/macbee280/byteland/stargazers
 [issues-shield]: https://img.shields.io/github/issues/macbee280/byteland.svg?style=for-the-badge
 [issues-url]: https://github.com/macbee280/byteland/issues
-[license-shield]: https://img.shields.io/github/license/macbee280/byteland.svg?style=for-the-badge
+[license-shield]:https://img.shields.io/github/license/macbee280/byteland.svg?style=for-the-badge
 [license-url]: https://github.com/macbee280/byteland/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/gdimartino/
